@@ -12,13 +12,15 @@ public class PlayerScore {
 
     public List<Frame> frames() {
         List<Frame> frames = new ArrayList<>();
-        for (int i = 0; i < rolls.size();) {
-            Frame frame = new Frame(i);
-            frames.add(frame);
-            if (frames.size() == 10) break;
-            i += frame.isStrike() ? 1: 2;
+        for (int i = 0; i < rolls.size() && frames.size() < 10;  i += getNextIteration(frames)) {
+            frames.add(new Frame(i));
         }
+
         return frames;
+    }
+
+    private int getNextIteration(List<Frame> frames) {
+        return frames.get(frames.size()-1).isStrike() ? 1: 2;
     }
 
     public PlayerScore roll(int pins) {
